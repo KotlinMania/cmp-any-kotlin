@@ -1,0 +1,25 @@
+cmp-any-kotlin
+==============
+
+A Kotlin Multiplatform port of the `cmp_any` crate from
+[facebookexperimental/gazebo](https://github.com/facebookexperimental/gazebo).
+
+Upstream `gazebo` is dual-licensed Apache-2.0 OR MIT, copyright Meta
+Platforms. The Kotlin translation here is a derivative work, distributed
+under the same dual Apache-2.0 OR MIT terms. All algorithmic and
+structural design credit — the type-erased comparator capture pattern
+in OrdAny, the `TypeId`-tagged equality in EqAny — belongs to the
+upstream contributors.
+
+Vendored Rust source is fetched into `tmp/cmp-any/` by
+`tools/fetch-rust-source.sh` and is not tracked in this repo.
+
+Upstream:
+  Repo:    https://github.com/facebookexperimental/gazebo
+  Path:    cmp_any
+  License: Apache-2.0 OR MIT
+
+Kotlin port:
+  Maintainer: Sydney Renee <sydney@solace.ofharmony.ai>
+  Fork:       https://github.com/KotlinMania/cmp-any-kotlin
+  License:    LICENSE-APACHE OR LICENSE-MIT (your choice; matches upstream)

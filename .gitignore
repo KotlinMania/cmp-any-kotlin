@@ -1,0 +1,13 @@
+.gradle/
+build/
+.idea/
+*.iml
+.kotlin/
+local.properties
+kotlin-js-store/
+node_modules/
+
+# Vendored upstream Rust source — fetched by tools/fetch-rust-source.sh.
+tmp/
+
+.DS_Store

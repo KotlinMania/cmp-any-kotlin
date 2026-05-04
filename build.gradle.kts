@@ -1,0 +1,162 @@
+import com.vanniktech.maven.publish.SonatypeHost
+import org.gradle.language.base.plugins.LifecycleBasePlugin
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
+
+plugins {
+    kotlin("multiplatform") version "2.3.20"
+    id("com.android.kotlin.multiplatform.library") version "9.2.0"
+    id("com.vanniktech.maven.publish") version "0.30.0"
+}
+
+group = "io.github.kotlinmania"
+version = "0.1.0"
+
+val androidSdkDir: String? =
+    providers.environmentVariable("ANDROID_SDK_ROOT").orNull
+        ?: providers.environmentVariable("ANDROID_HOME").orNull
+
+if (androidSdkDir != null && file(androidSdkDir).exists()) {
+    val localProperties = rootProject.file("local.properties")
+    if (!localProperties.exists()) {
+        val sdkDirPropertyValue = file(androidSdkDir).absolutePath.replace("\\", "/")
+        localProperties.writeText("sdk.dir=$sdkDirPropertyValue")
+    }
+}
+
+kotlin {
+    applyDefaultHierarchyTemplate()
+
+    compilerOptions {
+        allWarningsAsErrors.set(true)
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
+
+    sourceSets.all {
+        languageSettings.optIn("kotlin.time.ExperimentalTime")
+        languageSettings.optIn("kotlin.concurrent.atomics.ExperimentalAtomicApi")
+    }
+
+    val xcf = XCFramework("CmpAnyKotlin")
+
+    macosArm64 {
+        binaries.framework {
+            baseName = "CmpAnyKotlin"
+            xcf.add(this)
+        }
+    }
+    macosX64 {
+        binaries.framework {
+            baseName = "CmpAnyKotlin"
+            xcf.add(this)
+        }
+    }
+    linuxX64()
+    mingwX64()
+    iosArm64 {
+        binaries.framework {
+            baseName = "CmpAnyKotlin"
+            xcf.add(this)
+        }
+    }
+    iosX64 {
+        binaries.framework {
+            baseName = "CmpAnyKotlin"
+            xcf.add(this)
+        }
+    }
+    iosSimulatorArm64 {
+        binaries.framework {
+            baseName = "CmpAnyKotlin"
+            xcf.add(this)
+        }
+    }
+    js {
+        browser()
+        nodejs()
+    }
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        nodejs()
+    }
+
+    android {
+        namespace = "io.github.kotlinmania.cmpany"
+        compileSdk = 34
+        minSdk = 24
+        withHostTestBuilder {}.configure {}
+        withDeviceTestBuilder {
+            sourceSetTreeName = "test"
+        }
+    }
+
+    swiftExport {
+        moduleName = "CmpAnyKotlin"
+        flattenPackage = "io.github.kotlinmania.cmpany"
+    }
+
+    sourceSets {
+        val commonMain by getting
+
+        val commonTest by getting { dependencies { implementation(kotlin("test")) } }
+    }
+    jvmToolchain(21)
+}
+
+tasks.register("test") {
+    group = LifecycleBasePlugin.VERIFICATION_GROUP
+    description = "Runs the Kotlin Multiplatform test aggregate."
+    dependsOn("allTests")
+}
+
+mavenPublishing {
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    val signingConfigured =
+        providers.gradleProperty("signingInMemoryKey").isPresent ||
+            providers.gradleProperty("signing.keyId").isPresent ||
+            providers.environmentVariable("SIGNING_KEY").isPresent
+    if (signingConfigured) {
+        signAllPublications()
+    }
+
+    coordinates(group.toString(), "cmp-any-kotlin", version.toString())
+
+    pom {
+        name.set("cmp-any-kotlin")
+        description.set(
+            "Kotlin Multiplatform port of gazebo's cmp_any crate (type-erased Eq/Ord), " +
+                "translated line-by-line from gazebo/cmp_any/src/."
+        )
+        inceptionYear.set("2026")
+        url.set("https://github.com/KotlinMania/cmp-any-kotlin")
+
+        licenses {
+            license {
+                name.set("Apache-2.0")
+                url.set("https://opensource.org/licenses/Apache-2.0")
+                distribution.set("repo")
+            }
+            license {
+                name.set("MIT")
+                url.set("https://opensource.org/licenses/MIT")
+                distribution.set("repo")
+            }
+        }
+
+        developers {
+            developer {
+                id.set("sydneyrenee")
+                name.set("Sydney Renee")
+                email.set("sydney@solace.ofharmony.ai")
+                url.set("https://github.com/sydneyrenee")
+            }
+        }
+
+        scm {
+            url.set("https://github.com/KotlinMania/cmp-any-kotlin")
+            connection.set("scm:git:git://github.com/KotlinMania/cmp-any-kotlin.git")
+            developerConnection.set("scm:git:ssh://github.com/KotlinMania/cmp-any-kotlin.git")
+        }
+    }
+}
