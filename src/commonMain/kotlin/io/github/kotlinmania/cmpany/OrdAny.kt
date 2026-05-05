@@ -47,7 +47,9 @@ class OrdAny private constructor(
     companion object {
         fun <A : Comparable<A>> new(a: A): OrdAny {
             val typeId = a::class
-            val typeName = typeId.qualifiedName ?: typeId.simpleName ?: "<anonymous>"
+            // Kotlin/JS does not support `KClass.qualifiedName`, so use `toString()`
+            // as the portable, stable-ish discriminator for type ordering.
+            val typeName = typeId.toString()
             val capturedCmp: (Any, Any) -> Int = { lhs, rhs ->
                 // The cmp closure is invoked only after the typeId-equal branch
                 // in [compareTo] above; that runtime check is what guarantees the
