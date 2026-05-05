@@ -23,12 +23,11 @@ class OrdAnyTest {
         assertTrue(OrdAny.new(1) < OrdAny.new(2))
         assertTrue(OrdAny.new(true) > OrdAny.new(false))
         assertEquals(0, OrdAny.new("").compareTo(OrdAny.new("")))
-        // Comparison between distinct types: in Rust this falls back to TypeId
-        // ordering (hash-based, implementation-defined). The Kotlin port uses
-        // qualified-name ordering, which is deterministic across runs.
+        // Distinct erased types compare by the same portable type string used
+        // in the implementation.
         val intToken = OrdAny.new(1)
         val boolToken = OrdAny.new(true)
-        val expected = intToken.typeId().qualifiedName!!.compareTo(boolToken.typeId().qualifiedName!!)
+        val expected = intToken.typeId().toString().compareTo(boolToken.typeId().toString())
         assertEquals(expected < 0, intToken < boolToken)
     }
 }
