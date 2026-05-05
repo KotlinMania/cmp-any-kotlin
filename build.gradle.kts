@@ -1,6 +1,7 @@
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 
 plugins {
     kotlin("multiplatform") version "2.3.21"
@@ -39,6 +40,12 @@ kotlin {
     val xcf = XCFramework("CmpAnyKotlin")
 
     macosArm64 {
+        binaries.framework {
+            baseName = "CmpAnyKotlin"
+            xcf.add(this)
+        }
+    }
+    macosX64 {
         binaries.framework {
             baseName = "CmpAnyKotlin"
             xcf.add(this)
@@ -95,6 +102,12 @@ kotlin {
         val commonTest by getting { dependencies { implementation(kotlin("test")) } }
     }
     jvmToolchain(21)
+}
+
+rootProject.extensions.configure<YarnRootExtension>("kotlinYarn") {
+    resolution("diff", "8.0.3")
+    resolution("serialize-javascript", "7.0.5")
+    resolution("webpack", "5.106.2")
 }
 
 tasks.register("test") {
