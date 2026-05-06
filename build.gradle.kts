@@ -1,4 +1,3 @@
-import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
@@ -10,6 +9,7 @@ import org.jetbrains.kotlin.gradle.targets.wasm.yarn.WasmYarnRootEnvSpec
 
 plugins {
     kotlin("multiplatform") version "2.3.21"
+    kotlin("plugin.serialization") version "2.3.21"
     id("com.android.kotlin.multiplatform.library") version "9.2.0"
     id("com.vanniktech.maven.publish") version "0.36.0"
 }
@@ -152,12 +152,6 @@ rootProject.extensions.configure<NodeJsRootExtension>("kotlinNodeJs") {
     versions.kotlinWebHelpers.version = "3.1.0"
 }
 
-tasks.register("test") {
-    group = LifecycleBasePlugin.VERIFICATION_GROUP
-    description = "Runs the Kotlin Multiplatform test aggregate."
-    dependsOn("allTests")
-}
-
 mavenPublishing {
     publishToMavenCentral()
     signAllPublications()
@@ -166,19 +160,11 @@ mavenPublishing {
 
     pom {
         name.set("gazebo-kotlin")
-        description.set(
-            "Kotlin Multiplatform port of Gazebo primitives, starting with cmp_any (type-erased Eq/Ord), " +
-                "translated line-by-line from gazebo/cmp_any/src/."
-        )
+        description.set("Kotlin Multiplatform port of facebookincubator/gazebo - A collection of well-tested utilities")
         inceptionYear.set("2026")
         url.set("https://github.com/KotlinMania/gazebo-kotlin")
 
         licenses {
-            license {
-                name.set("Apache-2.0")
-                url.set("https://opensource.org/licenses/Apache-2.0")
-                distribution.set("repo")
-            }
             license {
                 name.set("MIT")
                 url.set("https://opensource.org/licenses/MIT")
@@ -201,4 +187,18 @@ mavenPublishing {
             developerConnection.set("scm:git:ssh://github.com/KotlinMania/gazebo-kotlin.git")
         }
     }
+}
+
+tasks.register("test") {
+    group = "verification"
+    description =
+        "Runs a portable test suite (macOS + JS + WasmJS). Android and non-host native targets are intentionally excluded."
+
+    val defaultTestTasks = listOf(
+        "macosArm64Test",
+        "jsNodeTest",
+        "wasmJsNodeTest",
+    )
+
+    dependsOn(defaultTestTasks.mapNotNull { taskName -> tasks.findByName(taskName) })
 }
