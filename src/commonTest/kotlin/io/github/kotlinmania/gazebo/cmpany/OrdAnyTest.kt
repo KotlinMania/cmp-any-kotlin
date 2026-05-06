@@ -1,5 +1,5 @@
-// port-lint: source tests:src/ord.rs
-package io.github.kotlinmania.cmpany
+// port-lint: source tests:cmp_any/src/ord.rs
+package io.github.kotlinmania.gazebo.cmpany
 
 /*
  * Copyright (c) Meta Platforms, Inc. and affiliates.

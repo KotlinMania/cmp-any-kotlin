@@ -16,4 +16,4 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "cmp-any-kotlin"
+rootProject.name = "gazebo-kotlin"

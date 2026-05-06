@@ -42,11 +42,11 @@ kotlin {
         languageSettings.optIn("kotlin.concurrent.atomics.ExperimentalAtomicApi")
     }
 
-    val xcf = XCFramework("CmpAnyKotlin")
+    val xcf = XCFramework("GazeboKotlin")
 
     macosArm64 {
         binaries.framework {
-            baseName = "CmpAnyKotlin"
+            baseName = "GazeboKotlin"
             xcf.add(this)
         }
     }
@@ -54,13 +54,13 @@ kotlin {
     mingwX64()
     iosArm64 {
         binaries.framework {
-            baseName = "CmpAnyKotlin"
+            baseName = "GazeboKotlin"
             xcf.add(this)
         }
     }
     iosSimulatorArm64 {
         binaries.framework {
-            baseName = "CmpAnyKotlin"
+            baseName = "GazeboKotlin"
             xcf.add(this)
         }
     }
@@ -75,7 +75,7 @@ kotlin {
     }
 
     android {
-        namespace = "io.github.kotlinmania.cmpany"
+        namespace = "io.github.kotlinmania.gazebo"
         compileSdk = 34
         minSdk = 24
         withHostTestBuilder {}.configure {}
@@ -85,8 +85,8 @@ kotlin {
     }
 
     swiftExport {
-        moduleName = "CmpAnyKotlin"
-        flattenPackage = "io.github.kotlinmania.cmpany"
+        moduleName = "GazeboKotlin"
+        flattenPackage = "io.github.kotlinmania.gazebo"
     }
 
     sourceSets {
@@ -163,16 +163,16 @@ mavenPublishing {
     publishToMavenCentral()
     signAllPublications()
 
-    coordinates(group.toString(), "cmp-any-kotlin", version.toString())
+    coordinates(group.toString(), "gazebo-kotlin", version.toString())
 
     pom {
-        name.set("cmp-any-kotlin")
+        name.set("gazebo-kotlin")
         description.set(
-            "Kotlin Multiplatform port of gazebo's cmp_any crate (type-erased Eq/Ord), " +
+            "Kotlin Multiplatform port of Gazebo primitives, starting with cmp_any (type-erased Eq/Ord), " +
                 "translated line-by-line from gazebo/cmp_any/src/."
         )
         inceptionYear.set("2026")
-        url.set("https://github.com/KotlinMania/cmp-any-kotlin")
+        url.set("https://github.com/KotlinMania/gazebo-kotlin")
 
         licenses {
             license {
@@ -197,9 +197,9 @@ mavenPublishing {
         }
 
         scm {
-            url.set("https://github.com/KotlinMania/cmp-any-kotlin")
-            connection.set("scm:git:git://github.com/KotlinMania/cmp-any-kotlin.git")
-            developerConnection.set("scm:git:ssh://github.com/KotlinMania/cmp-any-kotlin.git")
+            url.set("https://github.com/KotlinMania/gazebo-kotlin")
+            connection.set("scm:git:git://github.com/KotlinMania/gazebo-kotlin.git")
+            developerConnection.set("scm:git:ssh://github.com/KotlinMania/gazebo-kotlin.git")
         }
     }
 }

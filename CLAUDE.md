@@ -1,14 +1,15 @@
-# Claude Code Project Instructions — cmp-any-kotlin
+# Claude Code Project Instructions — gazebo-kotlin
 
 ## Project Overview
 
-Kotlin Multiplatform port of [facebookexperimental/gazebo](https://github.com/facebookexperimental/gazebo)'s
-`cmp_any` crate. Provides `EqAny` (type-erased equality) and `OrdAny`
-(type-erased ordering).
+Kotlin Multiplatform port home for primitives from
+[facebookincubator/gazebo](https://github.com/facebookincubator/gazebo).
 
-The Kotlin port lives in `src/commonMain/kotlin/io/github/kotlinmania/cmpany/`.
+The first ported subtree is `cmp_any`, exposed under
+`io.github.kotlinmania.gazebo.cmpany`.
+
 The upstream Rust source it was translated from is **not tracked** in this
-repo — fetch it into `tmp/cmp-any/` by running
+repo — fetch it into `tmp/gazebo/cmp_any/` by running
 `./tools/fetch-rust-source.sh` after cloning.
 
 ## Critical Workflows
@@ -21,8 +22,8 @@ Every translation rule, idiom mapping, and naming convention is in
 ### 2. Port-Lint headers (REQUIRED)
 
 ```kotlin
-// port-lint: source src/<file>.rs
-package io.github.kotlinmania.cmpany
+// port-lint: source cmp_any/src/<file>.rs
+package io.github.kotlinmania.gazebo.cmpany
 ```
 
 ### 3. Quality verification
@@ -37,12 +38,12 @@ The runtime gate is `./gradlew test`.
 ## Translation rules
 
 Same as the kotlinmania global rules. The translator's-mindset list applies:
-- One Rust file → one Kotlin file
+- One Rust file -> one Kotlin file
 - Translate top-to-bottom in upstream order
 - Comments are content
 - Bottom-up, no stubs
 - `@Suppress` is forbidden EXCEPT in `OrdAny.new`'s captured-comparator
-  cast (documented in AGENTS.md §5)
+  cast (documented in AGENTS.md)
 
 ## Commit Messages
 

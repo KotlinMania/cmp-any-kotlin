@@ -65,7 +65,7 @@ For each file to be considered "complete":
 ```bash
 # Initialize task queue for systematic porting
 cd tools/ast_distance
-./ast_distance --init-tasks ../../tmp/cmp-any rust ../../src kotlin tasks.json ../../AGENTS.md
+./ast_distance --init-tasks ../../tmp/gazebo/cmp_any rust ../../src kotlin tasks.json ../../AGENTS.md
 
 # Get next high-priority task
 ./ast_distance --assign tasks.json <agent-id>
@@ -82,4 +82,3 @@ do not treat them as the next implementation target by default.
 | Source | Expected target | Deps | Source path | Expected path |
 |--------|-----------------|------|-------------|---------------|
 | `lib` | `Lib` | 0 | `src/lib.rs` | `Lib.kt` |
-

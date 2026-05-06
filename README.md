@@ -1,19 +1,16 @@
-# cmp-any-kotlin
+# gazebo-kotlin
 
-Kotlin Multiplatform port of [facebookexperimental/gazebo](https://github.com/facebookexperimental/gazebo)'s
-`cmp_any` crate. Provides `EqAny` (type-erased equality) and `OrdAny`
-(type-erased ordering) — small wrappers that hold a value plus a captured
-comparison function so two instances of the same erased type can be compared
-without exposing the underlying type to callers.
+Kotlin Multiplatform port home for primitives from
+[facebookincubator/gazebo](https://github.com/facebookincubator/gazebo).
 
-Used by `starlark-kotlin`'s `TyCustom::cmpToken` to express upstream
-`gazebo::cmp_any::OrdAny`.
+The first ported subtree is `cmp_any`, which provides `PartialEqAny` and
+`OrdAny` for type-erased equality and ordering. It is used by
+`starlark-kotlin` where upstream Rust depends on `cmp_any`.
 
 ## Status
 
-Skeleton + initial port of `OrdAny` and `EqAny`. The upstream Rust source is
-the oracle; see [`AGENTS.md`](./AGENTS.md) and [`CLAUDE.md`](./CLAUDE.md) for
-porting rules.
+Initial port of the `cmp_any` subtree. The upstream Rust source is the oracle;
+see [AGENTS.md](./AGENTS.md) and [CLAUDE.md](./CLAUDE.md) for porting rules.
 
 ## Setup
 
@@ -21,7 +18,7 @@ porting rules.
 ./tools/fetch-rust-source.sh
 ```
 
-That populates `tmp/cmp-any/`.
+That populates `tmp/gazebo/cmp_any/`.
 
 ## Build
 
@@ -33,9 +30,9 @@ That populates `tmp/cmp-any/`.
 ## Coordinates
 
 ```kotlin
-implementation("io.github.kotlinmania:cmp-any-kotlin:0.1.0")
+implementation("io.github.kotlinmania:gazebo-kotlin:0.1.0")
 ```
 
 ## License
 
-Dual-licensed Apache-2.0 OR MIT, mirroring upstream gazebo.
+Dual-licensed Apache-2.0 OR MIT, mirroring upstream Gazebo.

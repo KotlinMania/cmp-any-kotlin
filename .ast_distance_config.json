@@ -1,12 +1,12 @@
 {
   "type": "port",
-  "name": "cmp-any-kotlin",
+  "name": "gazebo-kotlin",
   "source": {
-    "path": "tmp/cmp-any/src",
+    "path": "tmp/gazebo/cmp_any/src",
     "lang": "rust"
   },
   "target": {
-    "path": "src/commonMain/kotlin/io/github/kotlinmania/cmpany",
+    "path": "src/commonMain/kotlin/io/github/kotlinmania/gazebo/cmpany",
     "lang": "kotlin"
   },
   "checks": {

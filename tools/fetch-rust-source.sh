@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
-# Fetch the upstream gazebo cmp_any crate into tmp/cmp-any/.
+# Fetch the upstream gazebo cmp_any subtree into tmp/gazebo/cmp_any/.
 #
-# Upstream: facebookexperimental/gazebo. We only need the
+# Upstream: facebookincubator/gazebo. We only need the
 # `cmp_any/` subtree.
 set -euo pipefail
 
-UPSTREAM_REPO="${UPSTREAM_REPO:-https://github.com/facebookexperimental/gazebo.git}"
+UPSTREAM_REPO="${UPSTREAM_REPO:-https://github.com/facebookincubator/gazebo.git}"
 UPSTREAM_REF="${UPSTREAM_REF:-main}"
 SUBPATH="cmp_any"
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-DEST="$PROJECT_ROOT/tmp/cmp-any"
+DEST="$PROJECT_ROOT/tmp/gazebo/cmp_any"
 WORK_DIR="$(mktemp -d)"
 trap 'rm -rf "$WORK_DIR"' EXIT
 

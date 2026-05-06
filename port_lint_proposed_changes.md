@@ -1,7 +1,7 @@
 # port-lint Proposed Changes
 
 **Generated:** 2026-05-04
-**Source:** tmp/cmp-any
+**Source:** tmp/gazebo/cmp_any
 **Target:** src
 
 These are review proposals only. They are emitted when a Rust -> Kotlin pair matches only after fallback normalization, so the existing `port-lint` header is not an exact provenance match.
