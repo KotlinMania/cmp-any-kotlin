@@ -32,14 +32,14 @@ if (androidSdkDir != null && file(androidSdkDir).exists()) {
 kotlin {
     applyDefaultHierarchyTemplate()
 
-    compilerOptions {
-        allWarningsAsErrors.set(true)
-        freeCompilerArgs.add("-Xexpect-actual-classes")
-    }
-
     sourceSets.all {
         languageSettings.optIn("kotlin.time.ExperimentalTime")
         languageSettings.optIn("kotlin.concurrent.atomics.ExperimentalAtomicApi")
+    }
+
+    compilerOptions {
+        allWarningsAsErrors.set(true)
+        freeCompilerArgs.add("-Xexpect-actual-classes")
     }
 
     val xcf = XCFramework("GazeboKotlin")
@@ -74,6 +74,11 @@ kotlin {
         nodejs()
     }
 
+    swiftExport {
+        moduleName = "GazeboKotlin"
+        flattenPackage = "io.github.kotlinmania.gazebo"
+    }
+
     android {
         namespace = "io.github.kotlinmania.gazebo"
         compileSdk = 34
@@ -82,11 +87,6 @@ kotlin {
         withDeviceTestBuilder {
             sourceSetTreeName = "test"
         }
-    }
-
-    swiftExport {
-        moduleName = "GazeboKotlin"
-        flattenPackage = "io.github.kotlinmania.gazebo"
     }
 
     sourceSets {
@@ -115,11 +115,10 @@ rootProject.extensions.configure<WasmYarnRootEnvSpec>("kotlinWasmYarnSpec") {
 
 rootProject.extensions.configure<YarnRootExtension>("kotlinYarn") {
     resolution("diff", "8.0.3")
-    resolution("serialize-javascript", "7.0.5")
-    resolution("webpack", "5.106.2")
-
     resolution("**/diff", "8.0.3")
+    resolution("serialize-javascript", "7.0.5")
     resolution("**/serialize-javascript", "7.0.5")
+    resolution("webpack", "5.106.2")
     resolution("**/webpack", "5.106.2")
     resolution("follow-redirects", "1.16.0")
     resolution("**/follow-redirects", "1.16.0")

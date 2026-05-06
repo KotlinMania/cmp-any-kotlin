@@ -1,7 +1,7 @@
 # gazebo-kotlin
 
-Kotlin Multiplatform port home for primitives from
-[facebookincubator/gazebo](https://github.com/facebookincubator/gazebo).
+Kotlin Multiplatform primitives based on
+[Gazebo](https://github.com/facebookincubator/gazebo).
 
 The first ported subtree is `cmp_any`, which provides `PartialEqAny` and
 `OrdAny` for type-erased equality and ordering. It is used by
@@ -9,16 +9,7 @@ The first ported subtree is `cmp_any`, which provides `PartialEqAny` and
 
 ## Status
 
-Initial port of the `cmp_any` subtree. The upstream Rust source is the oracle;
-see [AGENTS.md](./AGENTS.md) and [CLAUDE.md](./CLAUDE.md) for porting rules.
-
-## Setup
-
-```bash
-./tools/fetch-rust-source.sh
-```
-
-That populates `tmp/gazebo/cmp_any/`.
+Initial release of the `cmp_any` subtree.
 
 ## Build
 

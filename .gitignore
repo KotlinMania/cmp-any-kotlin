@@ -11,4 +11,11 @@ node_modules/
 # Vendored upstream Rust source — fetched by tools/fetch-rust-source.sh.
 tmp/
 
+# Local port-analysis reports.
+.ast_distance_config.json
+NEXT_ACTIONS.md
+high_priority_ports.md
+port_lint_proposed_changes.md
+port_status_report.md
+
 .DS_Store
