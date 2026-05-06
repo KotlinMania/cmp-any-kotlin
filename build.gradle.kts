@@ -161,13 +161,7 @@ tasks.register("test") {
 
 mavenPublishing {
     publishToMavenCentral()
-    val signingConfigured =
-        providers.gradleProperty("signingInMemoryKey").isPresent ||
-            providers.gradleProperty("signing.keyId").isPresent ||
-            providers.environmentVariable("SIGNING_KEY").isPresent
-    if (signingConfigured) {
-        signAllPublications()
-    }
+    signAllPublications()
 
     coordinates(group.toString(), "cmp-any-kotlin", version.toString())
 

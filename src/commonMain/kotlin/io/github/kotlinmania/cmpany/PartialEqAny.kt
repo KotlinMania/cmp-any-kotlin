@@ -45,8 +45,7 @@ class PartialEqAny private constructor(
     companion object {
         fun <A : Any> new(a: A): PartialEqAny {
             val capturedEq: (Any, Any) -> Boolean = { lhs, rhs ->
-                @Suppress("UNCHECKED_CAST")
-                (lhs as A) == (rhs as A)
+                lhs == rhs
             }
             return PartialEqAny(
                 typeId = a::class,
