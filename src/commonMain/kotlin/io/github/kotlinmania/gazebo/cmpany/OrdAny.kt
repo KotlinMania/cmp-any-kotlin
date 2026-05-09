@@ -15,7 +15,7 @@ package io.github.kotlinmania.gazebo.cmpany
 import kotlin.reflect.KClass
 
 /** Ordering between arbitrary types. */
-class OrdAny private constructor(
+class OrdAny @PublishedApi internal constructor(
     private val typeId: KClass<*>,
     private val typeName: String,
     private val value: Any,
@@ -45,17 +45,19 @@ class OrdAny private constructor(
     }
 
     companion object {
-        fun <A : Comparable<A>> new(a: A): OrdAny {
+        inline fun <reified A : Comparable<A>> new(a: A): OrdAny {
             val typeId = a::class
             // Kotlin/JS does not support `KClass.qualifiedName`, so use `toString()`
             // as the portable, stable-ish discriminator for type ordering.
             val typeName = typeId.toString()
             val capturedCmp: (Any, Any) -> Int = { lhs, rhs ->
                 // The cmp closure is invoked only after the typeId-equal branch
-                // in [compareTo] above; that runtime check is what guarantees the
-                // captured cast below is sound.
-                @Suppress("UNCHECKED_CAST")
-                (lhs as A).compareTo(rhs as A)
+                // in [compareTo] above.
+                val typedLhs = lhs as? A
+                    ?: throw IllegalStateException("OrdAny comparator received mismatched left value")
+                val typedRhs = rhs as? A
+                    ?: throw IllegalStateException("OrdAny comparator received mismatched right value")
+                typedLhs.compareTo(typedRhs)
             }
             return OrdAny(
                 typeId = typeId,
